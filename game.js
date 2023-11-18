@@ -28,7 +28,51 @@ resetGame();
 
 // Resets game state and layout
 function resetGame() {
+  // Reset game state
+  phase = "waiting";
+  lastTimestamp = undefined;
+
+  // The first platform is always the same
+  platforms = [{ x: 50, w: 50 }];
+  generatePlatform();
+  generatePlatform();
+  generatePlatform();
+  generatePlatform();
+
+  // Initialize hero position
+  heroX = platforms[0].x + platforms[0].w - 30; // Hero positioned before the edge
+  heroY = 0;
+
+  // How much we should shift the screen back
+  sceneOffset = 0;
+
+  // There's always a stick, even if it appears to be invisible (length: 0)
+  sticks = [{ x: platforms[0].x + platforms[0].w, length: 0, rotation: 0 }];
+
+  // Score
+  score = 0;
+
+  // Reset UI
+  restartButton.style.display = "none"; // Hides reset button
+  scoreElement.innerText = score; // Reset score display
+
   draw();
+}
+
+function generatePlatform() {
+  const minGap = 40;
+  const maxGap = 200;
+  const minWidth = 20;
+  const maxWidth = 100;
+
+  // X coordinate of the right edge of the furthest platform
+  const lastPlatform = platforms[platforms.length - 1];
+  let furthestX = lastPlatform.x + lastPlatform.w;
+
+  const x = furthestX + minGap + Math.floor(Math.random() * (maxGap - minGap));
+  const w = minWidth + Math.floor(Math.random() * (maxWidth - minWdith));
+
+  platforms.push({ x, w });
 }
 
 function draw() {}
