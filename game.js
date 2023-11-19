@@ -12,6 +12,9 @@ let sticks = [];
 let score = 0;
 
 // Configuration
+const canvasWidth = 375;
+const canvasHeight = 375;
+const platformHeight = 100;
 
 // Getting the canvas element
 const canvas = document.getElementById("game");
@@ -75,7 +78,23 @@ function generatePlatform() {
   platforms.push({ x, w });
 }
 
-function draw() {}
+function draw() {
+  ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+
+  // Save the current transformation
+  ctx.save();
+
+  // Shifting the view
+  ctx.translate(-sceneOffset, 0);
+
+  // Draw scene
+  drawPlatforms();
+  drawHero();
+  drawSticks();
+
+  // Restore transformation to the last save
+  ctx.restore();
+}
 
 window.addEventListener("mousedown", (e) => {});
 
